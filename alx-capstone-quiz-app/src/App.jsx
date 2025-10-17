@@ -1,9 +1,23 @@
-export default function App() {
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Quiz from "./pages/Quiz";
+
+function App() {
   return (
-    <div className="h-screen flex items-center justify-center bg-slate-100">
-      <h1 className="text-3xl font-bold text-blue-600">
-        Quiz App 🧠
-      </h1>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-50 text-gray-900">
+        <Navbar />
+        <main className="p-6">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/quiz" element={<Quiz />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
+
+export default App;
