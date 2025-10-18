@@ -9,6 +9,7 @@ const QuizStart = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState(defaultForm);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     let isMounted = true;
@@ -31,6 +32,12 @@ const QuizStart = () => {
       isMounted = false;
     };
   }, []);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return categories;
+    return categories.filter((c) => c.name.toLowerCase().includes(q));
+  }, [categories, query]);
 
   const canStart = useMemo(() => {
     return Number(form.amount) > 0 && (!loading || categories.length > 0);
@@ -56,16 +63,27 @@ const QuizStart = () => {
       <form onSubmit={onSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 font-medium">Category</label>
-          <select
-            className="w-full border rounded px-3 py-2"
-            value={form.category}
-            onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-          >
-            <option value="">Any Category</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search topics..."
+            className="w-full border rounded px-3 py-2 mb-2"
+          />
+          {filtered.length === 0 ? (
+            <div className="text-sm text-gray-600">No topics match your search.</div>
+          ) : (
+            <select
+              className="w-full border rounded px-3 py-2"
+              value={form.category}
+              onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+            >
+              <option value="">Any Category</option>
+              {filtered.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          )}
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
