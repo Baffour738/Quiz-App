@@ -17,6 +17,7 @@ const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
     const all = [data.correct_answer, ...(data.incorrect_answers || [])];
     return shuffle(all);
   }, [data]);
+  const progress = totalQuestions > 0 ? Math.round(((questionIndex + 1) / totalQuestions) * 100) : 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,23 +35,32 @@ const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
   if (!data) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white rounded shadow p-6">
-      <div className="flex items-baseline justify-between mb-4">
-        <h2 className="text-xl font-semibold">Question {questionIndex + 1} of {totalQuestions}</h2>
-        <span className="text-sm text-gray-600 capitalize">{data.difficulty}</span>
+    <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
+      <div className="mb-4">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-lg font-semibold text-gray-900">Question {questionIndex + 1} of {totalQuestions}</h2>
+          <div className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700 capitalize">{data.difficulty}</div>
+        </div>
+        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div className="h-full bg-blue-600" style={{ width: `${progress}%` }} />
+        </div>
       </div>
-      <p className="mb-6 text-gray-900" dangerouslySetInnerHTML={{ __html: decodeHtml(data.question) }} />
+      <p className="mb-6 text-gray-900 text-lg" dangerouslySetInnerHTML={{ __html: decodeHtml(data.question) }} />
       <div className="space-y-2">
         {options.map((opt) => (
-          <label key={opt} className={`w-full border rounded px-4 py-2 flex items-center gap-3 cursor-pointer ${selected === opt ? "border-blue-600 bg-blue-50" : ""}`}>
+          <label
+            key={opt}
+            className={`w-full border rounded-lg px-4 py-2 flex items-center gap-3 cursor-pointer transition shadow-sm hover:shadow ${selected === opt ? "border-blue-600 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}
+          >
             <input
+              className="h-4 w-4 text-blue-600 focus:ring-blue-600"
               type="radio"
               name="answer"
               value={opt}
               checked={selected === opt}
               onChange={() => setSelected(opt)}
             />
-            <span dangerouslySetInnerHTML={{ __html: decodeHtml(opt) }} />
+            <span className="text-gray-900" dangerouslySetInnerHTML={{ __html: decodeHtml(opt) }} />
           </label>
         ))}
       </div>
@@ -58,7 +68,7 @@ const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
         <button
           type="submit"
           disabled={!selected}
-          className="bg-green-600 disabled:opacity-60 hover:bg-green-700 text-white font-medium px-4 py-2 rounded"
+          className="inline-flex items-center justify-center bg-green-600 disabled:opacity-60 hover:bg-green-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 transition"
         >
           {questionIndex + 1 === totalQuestions ? "Finish" : "Next"}
         </button>
