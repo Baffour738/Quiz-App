@@ -35,7 +35,7 @@ const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
   if (!data) return null;
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
+    <form onSubmit={handleSubmit} className="w-full max-w-2xl bg-white rounded-xl shadow-md p-6">
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg font-semibold text-gray-900">Question {questionIndex + 1} of {totalQuestions}</h2>
@@ -50,7 +50,7 @@ const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
         {options.map((opt) => (
           <label
             key={opt}
-            className={`w-full border rounded-lg px-4 py-2 flex items-center gap-3 cursor-pointer transition shadow-sm hover:shadow ${selected === opt ? "border-blue-600 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}
+            className={`w-full rounded-lg px-4 py-2 flex items-center gap-3 cursor-pointer transition shadow-sm hover:shadow ${selected === opt ? "ring-2 ring-blue-500 bg-blue-50" : "bg-white hover:bg-gray-50"}`}
           >
             <input
               className="h-4 w-4 text-blue-600 focus:ring-blue-600"

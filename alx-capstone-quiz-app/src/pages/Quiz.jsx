@@ -168,49 +168,63 @@ const Quiz = () => {
 
   const isEffectivelyLoading = loading || (!error && !isFinished && questions.length === 0);
 
+  const handleRetake = () => {
+    // Reset only the attempt state; keep the fetched questions
+    setCurrentIndex(0);
+    setScore(0);
+    setAnswers([]);
+    setIsFinished(false);
+    setSaved(false);
+  };
+
   return (
-    <div className="flex flex-col items-center mt-10">
-      {isEffectivelyLoading ? (
-        <div className="text-gray-700">Loading questions...</div>
-      ) : error ? (
-        <div className="w-full max-w-2xl bg-white rounded-xl shadow-sm ring-1 ring-red-200 p-6">
-          <div className="text-red-700 font-medium mb-2">{error}</div>
-          {attemptSummary?.length ? (
-            <div className="text-sm text-gray-600 mb-4">
-              Attempts tried:
-              <ul className="list-disc pl-5 mt-1 space-y-1">
-                {attemptSummary.map((a, i) => (
-                  <li key={i}>
-                    amount {a.amount}{a.category ? ` · category ${a.category}` : ""}{a.difficulty ? ` · ${a.difficulty}` : ""}
-                  </li>
-                ))}
-              </ul>
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="text-center mb-6">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">Quiz App</h1>
+      </div>
+      <div className="flex justify-center">
+        {isEffectivelyLoading ? (
+          <div className="text-white/90">Loading questions...</div>
+        ) : error ? (
+          <div className="w-full max-w-2xl bg-white rounded-xl shadow-sm ring-1 ring-red-200 p-6">
+            <div className="text-red-700 font-medium mb-2">{error}</div>
+            {attemptSummary?.length ? (
+              <div className="text-sm text-gray-600 mb-4">
+                Attempts tried:
+                <ul className="list-disc pl-5 mt-1 space-y-1">
+                  {attemptSummary.map((a, i) => (
+                    <li key={i}>
+                      amount {a.amount}{a.category ? ` · category ${a.category}` : ""}{a.difficulty ? ` · ${a.difficulty}` : ""}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            <div className="flex justify-end">
+              <button
+                onClick={() => setReloads((n) => n + 1)}
+                className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition"
+              >
+                Retry
+              </button>
             </div>
-          ) : null}
-          <div className="flex justify-end">
-            <button
-              onClick={() => setReloads((n) => n + 1)}
-              className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition"
-            >
-              Retry
-            </button>
           </div>
-        </div>
-      ) : !isFinished ? (
-        <>
-          {info ? (
-            <div className="mb-4 w-full max-w-2xl text-sm text-blue-800 bg-blue-50 border border-blue-200 rounded-lg p-3">{info}</div>
-          ) : null}
-          <QuestionCard
-          questionIndex={currentIndex}
-          totalQuestions={questions.length}
-          data={questions[currentIndex]}
-          onAnswer={onAnswer}
-          />
-        </>
-      ) : (
-        <ScoreSummary score={score} total={questions.length} answers={answers} />
-      )}
+        ) : !isFinished ? (
+          <>
+            {info ? (
+              <div className="mb-4 w-full max-w-2xl text-sm text-blue-800 bg-blue-50 border border-blue-200 rounded-lg p-3">{info}</div>
+            ) : null}
+            <QuestionCard
+              questionIndex={currentIndex}
+              totalQuestions={questions.length}
+              data={questions[currentIndex]}
+              onAnswer={onAnswer}
+            />
+          </>
+        ) : (
+          <ScoreSummary score={score} total={questions.length} answers={answers} onRetake={handleRetake} />
+        )}
+      </div>
     </div>
   );
 };

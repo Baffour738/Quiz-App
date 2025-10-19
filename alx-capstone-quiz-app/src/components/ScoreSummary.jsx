@@ -7,7 +7,7 @@ function decodeHtml(html) {
   return txt.value;
 }
 
-const ScoreSummary = ({ score = 0, total = 0, answers = [] }) => {
+const ScoreSummary = ({ score = 0, total = 0, answers = [], onRetake }) => {
   const percent = total > 0 ? Math.round((score / total) * 100) : 0;
   return (
     <div className="w-full max-w-3xl bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
@@ -46,12 +46,22 @@ const ScoreSummary = ({ score = 0, total = 0, answers = [] }) => {
         >
           Back to Home
         </Link>
-        <Link
-          to="/quiz"
-          className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 transition"
-        >
-          Retake Quiz
-        </Link>
+        {onRetake ? (
+          <button
+            type="button"
+            onClick={onRetake}
+            className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 transition"
+          >
+            Retake Quiz
+          </button>
+        ) : (
+          <Link
+            to="/quiz"
+            className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 transition"
+          >
+            Retake Quiz
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -24,9 +24,11 @@ const History = () => {
       <div className="bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
           <h2 className="text-2xl font-semibold text-gray-900">Quiz History</h2>
-          <div className="flex gap-2">
-            <Link to="/" className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition">Home</Link>
-            <button onClick={onClear} className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-medium px-4 py-2 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 transition">Clear</button>
+          <div className="flex gap-4 sm:gap-6">
+            <Link to="/">
+              <button type="button" style={{ marginRight: 8 }} className="no-underline inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-md shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition">Home</button>
+            </Link>
+            <button onClick={onClear} className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-medium px-5 py-2.5 rounded-md shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 transition">Clear</button>
           </div>
         </div>
 

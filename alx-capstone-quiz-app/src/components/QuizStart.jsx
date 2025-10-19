@@ -54,7 +54,7 @@ const QuizStart = () => {
   };
 
   return (
-    <div className="w-full max-w-xl bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
+    <div className="w-full max-w-xl bg-white rounded-xl shadow-md p-6">
       <h2 className="text-2xl font-semibold mb-1 text-gray-900">Configure Your Quiz</h2>
       <p className="text-gray-600 mb-4">Choose a topic, difficulty and number of questions.</p>
       {error ? (
@@ -68,13 +68,13 @@ const QuizStart = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search topics..."
-            className="w-full border border-gray-300 rounded px-3 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full rounded-md px-3 py-2 mb-2 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           {filtered.length === 0 ? (
             <div className="text-sm text-gray-600">No topics match your search.</div>
           ) : (
             <select
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-md px-3 py-2 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
               value={form.category}
               onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
             >
@@ -89,7 +89,7 @@ const QuizStart = () => {
           <div>
             <label className="block mb-1 font-medium">Difficulty</label>
             <select
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-md px-3 py-2 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
               value={form.difficulty}
               onChange={(e) => setForm((f) => ({ ...f, difficulty: e.target.value }))}
             >
@@ -104,7 +104,7 @@ const QuizStart = () => {
               type="number"
               min={1}
               max={50}
-              className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-md px-3 py-2 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={form.amount}
               onChange={(e) => setForm((f) => ({ ...f, amount: Number(e.target.value || 0) }))}
             />
@@ -114,7 +114,7 @@ const QuizStart = () => {
           <button
             type="submit"
             disabled={!canStart}
-            className="inline-flex items-center justify-center bg-blue-600 disabled:opacity-60 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition"
+            className="inline-flex items-center justify-center bg-blue-600 disabled:opacity-60 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-md shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition no-underline"
           >
             {loading ? "Loading..." : "Start Quiz"}
           </button>

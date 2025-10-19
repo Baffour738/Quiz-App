@@ -8,7 +8,7 @@ import History from "./pages/History";
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-50 text-gray-900">
+      <div className="min-h-screen bg-blue-900 text-gray-900">
         <Navbar />
         <main className="p-6">
           <Routes>
