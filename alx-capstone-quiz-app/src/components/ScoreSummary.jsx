@@ -8,6 +8,20 @@ function decodeHtml(html) {
 }
 
 const ScoreSummary = ({ score = 0, total = 0, answers = [], onRetake }) => {
+  const btnStyle = {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "8px 16px",
+    border: "1px solid #6b7280",
+    borderRadius: 6,
+    background: "#f8f8f8",
+    color: "#111827",
+    textDecoration: "none",
+    fontWeight: 500,
+    boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+    cursor: "pointer",
+  };
   const percent = total > 0 ? Math.round((score / total) * 100) : 0;
   return (
     <div className="w-full max-w-3xl bg-white rounded-xl shadow-sm ring-1 ring-gray-200 p-6">
@@ -39,26 +53,16 @@ const ScoreSummary = ({ score = 0, total = 0, answers = [], onRetake }) => {
           );
         })}
       </div>
-      <div className="flex gap-3 justify-center">
-        <Link
-          to="/"
-          className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 transition"
-        >
+      <div className="flex justify-center" style={{ gap: 24 }}>
+        <Link to="/" style={{ ...btnStyle, marginRight: 24 }}>
           Back to Home
         </Link>
         {onRetake ? (
-          <button
-            type="button"
-            onClick={onRetake}
-            className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 transition"
-          >
+          <button type="button" onClick={onRetake} style={btnStyle}>
             Retake Quiz
           </button>
         ) : (
-          <Link
-            to="/quiz"
-            className="inline-flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500 transition"
-          >
+          <Link to="/quiz" style={btnStyle}>
             Retake Quiz
           </Link>
         )}

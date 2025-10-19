@@ -138,12 +138,24 @@ const Quiz = () => {
   }, [amount, category, difficulty, reloads]);
 
   const onAnswer = (isCorrect, record) => {
-    setAnswers((prev) => [...prev, record]);
-    if (isCorrect) setScore((s) => s + 1);
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[currentIndex] = record;
+      // recompute score from answers present so far
+      const newScore = next.reduce((acc, r) => acc + (r && r.selected === r.correct_answer ? 1 : 0), 0);
+      setScore(newScore);
+      return next;
+    });
     if (currentIndex + 1 < questions.length) {
       setCurrentIndex((i) => i + 1);
     } else {
       setIsFinished(true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((i) => i - 1);
     }
   };
 
@@ -219,6 +231,8 @@ const Quiz = () => {
               totalQuestions={questions.length}
               data={questions[currentIndex]}
               onAnswer={onAnswer}
+              onPrevious={handlePrevious}
+              selectedAnswer={answers[currentIndex]?.selected || ""}
             />
           </>
         ) : (

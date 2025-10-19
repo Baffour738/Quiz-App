@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 function decodeHtml(html) {
   const txt = document.createElement("textarea");
@@ -10,14 +10,18 @@ const shuffle = (arr) => arr.map((v) => ({ v, r: Math.random() }))
   .sort((a, b) => a.r - b.r)
   .map(({ v }) => v);
 
-const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
-  const [selected, setSelected] = useState("");
+const QuestionCard = ({ data, onAnswer, onPrevious, questionIndex, totalQuestions, selectedAnswer = "" }) => {
+  const [selected, setSelected] = useState(selectedAnswer || "");
   const options = useMemo(() => {
     if (!data) return [];
     const all = [data.correct_answer, ...(data.incorrect_answers || [])];
     return shuffle(all);
   }, [data]);
   const progress = totalQuestions > 0 ? Math.round(((questionIndex + 1) / totalQuestions) * 100) : 0;
+
+  useEffect(() => {
+    setSelected(selectedAnswer || "");
+  }, [selectedAnswer, questionIndex]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -64,7 +68,15 @@ const QuestionCard = ({ data, onAnswer, questionIndex, totalQuestions }) => {
           </label>
         ))}
       </div>
-      <div className="mt-6 flex justify-end">
+      <div className="mt-6 flex items-center justify-between">
+        <button
+          type="button"
+          onClick={onPrevious}
+          disabled={questionIndex === 0}
+          className="inline-flex items-center justify-center bg-gray-600 disabled:opacity-60 hover:bg-gray-700 text-white font-medium px-5 py-2.5 rounded-lg shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 transition"
+        >
+          Previous
+        </button>
         <button
           type="submit"
           disabled={!selected}
